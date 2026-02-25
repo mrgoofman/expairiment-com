@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>expairiment</title>
-<meta name="description" content="An unofficial AI skunkworks lab. We test ideas your boss would reject.">
+<meta name="description" content="An unofficial AI lab. We test ideas your boss would reject.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
 
@@ -55,16 +55,26 @@
   .band-name {
     flex: 2.2;
     background: #c8c5bc;
-    align-items: flex-start;
-    justify-content: flex-end;
     padding: 0;
+    position: relative;
+    overflow: hidden;
   }
-  .band-name .band-label {
+
+  .bounce-label {
+    font-family: inherit;
+    font-weight: 900;
     font-size: clamp(2.5rem, 9vw, 8rem);
-    line-height: 0.82;
-    display: block;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
+    white-space: nowrap;
+    will-change: transform;
   }
 
   /* Band 2 — Subline (marquee) */
@@ -135,6 +145,19 @@
     align-items: center;
     gap: clamp(0.4rem, 1.5vw, 1rem);
     width: 100%;
+    position: relative;
+  }
+
+  #email-measure {
+    visibility: hidden;
+    position: absolute;
+    white-space: pre;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: clamp(0.9rem, 3vw, 2.2rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    pointer-events: none;
   }
 
   input[type="email"] {
@@ -147,10 +170,45 @@
     font-size: clamp(0.9rem, 3vw, 2.2rem);
     text-transform: uppercase;
     padding: 0.1em 0;
-    flex: 1;
-    min-width: 0;
+    width: 0;
+    flex-shrink: 0;
     outline: none;
     letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .band {
+      white-space: normal;
+    }
+
+    .band-name .band-label {
+      font-size: clamp(2rem, 10vw, 4rem);
+    }
+
+    .band-statement .band-label {
+      font-size: clamp(0.85rem, 3.5vw, 1.8rem);
+    }
+
+    .band-fine .band-label {
+      font-size: clamp(0.5rem, 2vw, 0.9rem);
+    }
+
+    .form-inline {
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    input[type="email"] {
+      flex: 1 1 100%;
+      min-width: 0 !important;
+      width: 100% !important;
+      min-height: 44px;
+    }
+
+    button {
+      width: 100%;
+      min-height: 44px;
+    }
   }
 
   input[type="email"]::placeholder {
@@ -184,13 +242,169 @@
   }
   .band-fine .band-label {
     font-size: clamp(0.7rem, 2.2vw, 2rem);
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.2);
   }
 
-  /* Band 6 — Dead band */
-  .band-dead {
+  /* Band 6 — Social */
+  .band-social {
     flex: 0.5;
     background: #b8a9d4;
+    justify-content: center;
+    gap: clamp(0.8rem, 2vw, 1.5rem);
+  }
+
+  .band-social a {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.5);
+    transition: color 0.15s;
+  }
+
+  .band-social a:hover {
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .band-social svg {
+    width: clamp(1rem, 2.5vw, 1.8rem);
+    height: clamp(1rem, 2.5vw, 1.8rem);
+  }
+
+  /* Contact trigger — pulsating dot */
+  .contact-dot {
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    width: 12px;
+    height: 12px;
+    background: #e60000;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background: #e60000;
+    color: #000;
+    width: min(90vw, 480px);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    position: relative;
+    font-family: inherit;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    line-height: 1;
+    font-weight: 900;
+    width: auto;
+    min-height: 0;
+  }
+
+  .modal-close:hover {
+    opacity: 0.6;
+  }
+
+  .modal-heading {
+    font-weight: 900;
+    font-size: clamp(1rem, 3.5vw, 1.6rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    line-height: 1.15;
+    padding-right: 2rem;
+  }
+
+  #contact-form input[type="email"],
+  #contact-form textarea {
+    display: block;
+    width: 100%;
+    background: #fff;
+    border: none;
+    color: #000;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    text-transform: uppercase;
+    padding: 0.75em;
+    margin-bottom: 1rem;
+    outline: none;
+    letter-spacing: -0.02em;
+    flex-shrink: initial;
+    border-bottom: none;
+    min-width: 0;
+  }
+
+  #contact-form input[type="email"]::placeholder,
+  #contact-form textarea::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  #contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .modal-submit {
+    background: #000;
+    color: #e60000;
+    border: none;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 0.7em 1.5em;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.15s;
+  }
+
+  .modal-submit:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 600px) {
+    .modal-submit {
+      min-height: 44px;
+    }
+
+    #contact-form input[type="email"],
+    #contact-form textarea {
+      min-height: 44px;
+      flex: initial;
+    }
   }
 
 </style>
@@ -198,15 +412,13 @@
 <body>
 
 <div class="band band-name">
-  <span class="band-label">
-    EXPAIRIMENT
-  </span>
+  <span class="bounce-label">EXPAIRIMENT</span>
 </div>
 
 <div class="band band-sub">
   <div class="marquee">
     <div class="marquee-track">
-      <span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span>
+      <span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI LAB</span><span class="marquee-dot">&middot;</span>
     </div>
   </div>
 </div>
@@ -220,8 +432,9 @@
 <div class="band band-form">
   <form id="subscribe-form" class="band-label" action="/api/subscribe" method="POST">
     <div class="form-inline">
+      <span id="email-measure" aria-hidden="true"></span>
       <input type="email" name="email" placeholder="YOUR@CURIOUS.MIND" required autocomplete="email">
-      <button type="submit">GET UNSTABLE RELEASES</button>
+      <button type="submit">FIND OUT</button>
     </div>
   </form>
 </div>
@@ -232,9 +445,108 @@
   </span>
 </div>
 
-<div class="band band-dead"></div>
+<div class="band band-social">
+  <a href="https://www.instagram.com/expairiment" target="_blank" rel="noopener" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+  </a>
+  <a href="https://www.youtube.com/@expairiment" target="_blank" rel="noopener" aria-label="YouTube">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+  </a>
+  <a href="https://www.tiktok.com/@expairiment" target="_blank" rel="noopener" aria-label="TikTok">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.3 6.4a4.5 4.5 0 0 1-2.8-1.6A4.5 4.5 0 0 1 15.4 2h-3.2v13.6a2.8 2.8 0 0 1-2.8 2.6 2.8 2.8 0 0 1-2.8-2.8 2.8 2.8 0 0 1 2.8-2.8c.3 0 .6 0 .8.1V9.4a6.1 6.1 0 0 0-.8-.1 6 6 0 0 0-6 6.1 6 6 0 0 0 6 6 6 6 0 0 0 6-6.1V9.5a7.7 7.7 0 0 0 4.6 1.5V7.8a4.5 4.5 0 0 1-1.7-1.4z"/></svg>
+  </a>
+</div>
+
+<div id="contact-trigger" class="contact-dot" role="button" tabindex="0" aria-label="Contact"></div>
+
+<div id="contact-modal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-heading">CONGRATULATIONS, YOU FOUND THE DOOR</div>
+    <form id="contact-form">
+      <input type="email" name="email" placeholder="YOUR@EMAIL.HERE" required autocomplete="email">
+      <textarea name="message" placeholder="YOUR UNREASONABLE REQUEST HERE" required></textarea>
+      <button type="submit" class="modal-submit">SEND IT</button>
+    </form>
+  </div>
+</div>
 
 <script>
+  // DVD bounce
+  (function() {
+    const container = document.querySelector('.band-name');
+    const label = document.querySelector('.bounce-label');
+    let x = 0, y = 0, dx = 1.5, dy = 1;
+    let lw, lh, padX, padY;
+
+    function measure() {
+      // Reset transform so getBoundingClientRect gives true size
+      label.style.transform = 'translate(0,0)';
+      const r = label.getBoundingClientRect();
+      lw = r.width;
+      lh = r.height;
+      // Font metrics add invisible space around glyphs; compute offsets to compensate
+      const fs = parseFloat(getComputedStyle(label).fontSize);
+      padY = fs * 0.12;
+      padX = fs * 0.04;
+    }
+
+    function bounce() {
+      const cw = container.clientWidth;
+      const ch = container.clientHeight;
+
+      x += dx;
+      y += dy;
+
+      if (x + lw >= cw + padX) { x = cw - lw + padX; dx = -dx; }
+      if (x <= -padX) { x = -padX; dx = -dx; }
+      if (y + lh >= ch + padY) { y = ch - lh + padY; dy = -dy; }
+      if (y <= -padY) { y = -padY; dy = -dy; }
+
+      label.style.transform = `translate(${x}px, ${y}px)`;
+      requestAnimationFrame(bounce);
+    }
+
+    document.fonts.ready.then(() => {
+      measure();
+      const cw = container.clientWidth;
+      const ch = container.clientHeight;
+      x = Math.random() * Math.max(0, cw - lw);
+      y = Math.random() * Math.max(0, ch - lh);
+      bounce();
+    });
+  })();
+
+  const emailInput = document.querySelector('input[name="email"]');
+  const emailMeasure = document.getElementById('email-measure');
+  let placeholderWidth = 0;
+
+  function measurePlaceholder() {
+    emailMeasure.textContent = emailInput.placeholder;
+    placeholderWidth = emailMeasure.offsetWidth + 4;
+    emailInput.style.minWidth = placeholderWidth + 'px';
+  }
+
+  function resizeInput() {
+    if (emailInput.value) {
+      emailMeasure.textContent = emailInput.value;
+      const w = Math.max(emailMeasure.offsetWidth + 4, placeholderWidth);
+      emailInput.style.width = w + 'px';
+    } else {
+      emailInput.style.width = placeholderWidth + 'px';
+    }
+  }
+
+  measurePlaceholder();
+  resizeInput();
+  emailInput.addEventListener('input', resizeInput);
+
+  // Recalculate once web fonts finish loading
+  document.fonts.ready.then(() => {
+    measurePlaceholder();
+    resizeInput();
+  });
+
   document.getElementById('subscribe-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -256,6 +568,7 @@
       if (res.ok) {
         btn.textContent = 'YOU\'RE IN';
         input.value = '';
+        resizeInput();
       } else if (res.status === 409) {
         btn.textContent = 'ALREADY IN';
       } else {
@@ -270,6 +583,76 @@
       btn.disabled = false;
     }, 2500);
   });
+
+  // Contact modal
+  (function() {
+    const trigger = document.getElementById('contact-trigger');
+    const overlay = document.getElementById('contact-modal');
+    const closeBtn = overlay.querySelector('.modal-close');
+    const form = document.getElementById('contact-form');
+
+    function openModal() {
+      overlay.classList.add('open');
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+    }
+
+    trigger.addEventListener('click', openModal);
+    trigger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal();
+      }
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = form.querySelector('.modal-submit');
+      const emailInput = form.querySelector('input[name="email"]');
+      const msgInput = form.querySelector('textarea[name="message"]');
+      const originalText = btn.textContent;
+
+      btn.disabled = true;
+      btn.textContent = '...';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailInput.value, message: msgInput.value }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          btn.textContent = 'NOTED. MAYBE.';
+          emailInput.value = '';
+          msgInput.value = '';
+          setTimeout(closeModal, 2000);
+        } else {
+          btn.textContent = data.error || 'ERROR';
+        }
+      } catch {
+        btn.textContent = 'OFFLINE?';
+      }
+
+      setTimeout(function() {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }, 2500);
+    });
+  })();
 </script>
 
 </body>
