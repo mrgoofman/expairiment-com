@@ -40,10 +40,30 @@ export async function onRequestPost(context) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "wanna@expairiment.com",
+          from: "EXPAIRIMENT.COM <wanna@expairiment.com>",
           to: "wanna@expairiment.com",
+          reply_to: email,
           subject: `[expairiment] Message from ${email}`,
           text: `From: ${email}\n\n${message}`,
+          html: `<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:32px 16px">
+    <tr><td align="center">
+      <table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#ffffff;border-radius:8px;overflow:hidden">
+        <tr><td style="padding:24px 28px 16px">
+          <p style="margin:0 0 20px;font-size:13px;font-weight:600;letter-spacing:0.05em;color:#a0a0a0;text-transform:uppercase">expairiment</p>
+          <p style="margin:0 0 4px;font-size:12px;color:#71717a">From</p>
+          <p style="margin:0 0 20px;font-size:16px;color:#18181b"><a href="mailto:${email}" style="color:#18181b;text-decoration:none">${email}</a></p>
+          <div style="padding:16px;background:#fafafa;border-radius:6px;border:1px solid #e4e4e7">
+            <p style="margin:0;font-size:14px;line-height:1.6;color:#27272a;white-space:pre-wrap">${message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+          </div>
+          <p style="margin:20px 0 0;font-size:11px;color:#a1a1aa">Received ${new Date().toISOString().replace("T", " at ").slice(0, 22)} UTC</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`,
         }),
       });
     } catch (e) {
