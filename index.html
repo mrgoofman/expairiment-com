@@ -147,7 +147,8 @@
     font-size: clamp(0.9rem, 3vw, 2.2rem);
     text-transform: uppercase;
     padding: 0.1em 0;
-    width: clamp(200px, 30vw, 500px);
+    flex: 1;
+    min-width: 0;
     outline: none;
     letter-spacing: -0.02em;
   }
@@ -168,6 +169,7 @@
     padding: 0.5em 1em;
     cursor: pointer;
     white-space: nowrap;
+    flex-shrink: 0;
     transition: opacity 0.15s;
   }
 
@@ -191,11 +193,6 @@
     background: #b8a9d4;
   }
 
-  @media (max-width: 600px) {
-    input[type="email"] {
-      width: 140px;
-    }
-  }
 </style>
 </head>
 <body>
