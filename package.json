@@ -1,0 +1,11 @@
+{
+  "name": "expairiment-com",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler pages dev .",
+    "deploy": "npx wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "wrangler": "^4.68.1"
+  }
+}

@@ -1,0 +1,7 @@
+name = "expairiment-com"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "expairiment-leads"
+database_id = "88afb711-5651-4992-b262-49465f0c90fc"

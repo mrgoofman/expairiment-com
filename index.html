@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>expairiment</title>
+<meta name="description" content="An unofficial AI skunkworks lab. We test ideas your boss would reject.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .band {
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(1.2rem, 4vw, 3rem);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .band-label {
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #000;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.4rem, 1.5vw, 1rem);
+  }
+
+  .marker {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* Band 1 — Name */
+  .band-name {
+    flex: 2.2;
+    background: #c8c5bc;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0;
+  }
+  .band-name .band-label {
+    font-size: clamp(2.5rem, 9vw, 8rem);
+    line-height: 0.82;
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Band 2 — Subline (marquee) */
+  .band-sub {
+    flex: 1.6;
+    background: #3b4a8a;
+    padding: 0;
+  }
+
+  .marquee {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    align-items: center;
+    height: 100%;
+  }
+
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-track .marquee-text {
+    font-weight: 900;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.2rem, 4.5vw, 4rem);
+  }
+
+  .marquee-track .marquee-dot {
+    font-size: clamp(1.2rem, 4.5vw, 4rem);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0 clamp(1rem, 3vw, 3rem);
+    line-height: 1;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Band 3 — Statement */
+  .band-statement {
+    flex: 1.4;
+    background: #e60000;
+  }
+  .band-statement .band-label {
+    font-size: clamp(1.1rem, 4vw, 3.5rem);
+  }
+
+  /* Band 4 — Form */
+  .band-form {
+    flex: 1.4;
+    background: #1a4d1a;
+    gap: 1rem;
+  }
+  .band-form .band-label {
+    font-size: clamp(0.9rem, 3vw, 2.2rem);
+    width: 100%;
+  }
+
+  .form-inline {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.4rem, 1.5vw, 1rem);
+    width: 100%;
+  }
+
+  input[type="email"] {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #fff;
+    color: #fff;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: clamp(0.9rem, 3vw, 2.2rem);
+    text-transform: uppercase;
+    padding: 0.1em 0;
+    width: clamp(200px, 30vw, 500px);
+    outline: none;
+    letter-spacing: -0.02em;
+  }
+
+  input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  button {
+    background: #fff;
+    color: #1a4d1a;
+    border: none;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: clamp(0.7rem, 1.8vw, 1.4rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  /* Band 5 — Fine print */
+  .band-fine {
+    flex: 1;
+    background: #6b4c3a;
+  }
+  .band-fine .band-label {
+    font-size: clamp(0.7rem, 2.2vw, 2rem);
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Band 6 — Dead band */
+  .band-dead {
+    flex: 0.5;
+    background: #b8a9d4;
+  }
+
+  @media (max-width: 600px) {
+    input[type="email"] {
+      width: 140px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="band band-name">
+  <span class="band-label">
+    EXPAIRIMENT
+  </span>
+</div>
+
+<div class="band band-sub">
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span><span class="marquee-text">AN UNOFFICIAL AI SKUNKWORKS LAB</span><span class="marquee-dot">&middot;</span>
+    </div>
+  </div>
+</div>
+
+<div class="band band-statement">
+  <span class="band-label">
+    WE TEST IDEAS YOUR BOSS WOULD REJECT
+  </span>
+</div>
+
+<div class="band band-form">
+  <form id="subscribe-form" class="band-label" action="/api/subscribe" method="POST">
+    <div class="form-inline">
+      <input type="email" name="email" placeholder="YOUR@CURIOUS.MIND" required autocomplete="email">
+      <button type="submit">GET UNSTABLE RELEASES</button>
+    </div>
+  </form>
+</div>
+
+<div class="band band-fine">
+  <span class="band-label">
+    NO ROADMAP. NO GUARANTEES. NO WEEKLY NEWSLETTER.
+  </span>
+</div>
+
+<div class="band band-dead"></div>
+
+<script>
+  document.getElementById('subscribe-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button');
+    const input = form.querySelector('input[name="email"]');
+    const originalText = btn.textContent;
+
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: input.value }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        btn.textContent = 'YOU\'RE IN';
+        input.value = '';
+      } else if (res.status === 409) {
+        btn.textContent = 'ALREADY IN';
+      } else {
+        btn.textContent = data.error || 'ERROR';
+      }
+    } catch {
+      btn.textContent = 'OFFLINE?';
+    }
+
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 2500);
+  });
+</script>
+
+</body>
+</html>
