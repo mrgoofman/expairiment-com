@@ -346,6 +346,22 @@
     padding-right: 2rem;
   }
 
+  .modal-success {
+    display: none;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    text-align: center;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-success.visible {
+    display: flex;
+  }
+
   #contact-form input[type="email"],
   #contact-form textarea {
     display: block;
@@ -468,6 +484,7 @@
       <textarea name="message" placeholder="YOUR UNREASONABLE REQUEST HERE" required></textarea>
       <button type="submit" class="modal-submit">SEND IT</button>
     </form>
+    <div id="contact-success" class="modal-success">NOTED. MAYBE.</div>
   </div>
 </div>
 
@@ -597,6 +614,11 @@
 
     function closeModal() {
       overlay.classList.remove('open');
+      form.style.display = '';
+      document.querySelector('.modal-heading').style.display = '';
+      document.getElementById('contact-success').classList.remove('visible');
+      btn.textContent = 'SEND IT';
+      btn.disabled = false;
     }
 
     trigger.addEventListener('click', openModal);
@@ -636,7 +658,9 @@
         const data = await res.json();
 
         if (res.ok) {
-          btn.textContent = 'NOTED. MAYBE.';
+          form.style.display = 'none';
+          document.querySelector('.modal-heading').style.display = 'none';
+          document.getElementById('contact-success').classList.add('visible');
           emailInput.value = '';
           msgInput.value = '';
           setTimeout(closeModal, 2000);

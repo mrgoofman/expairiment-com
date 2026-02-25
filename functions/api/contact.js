@@ -40,8 +40,8 @@ export async function onRequestPost(context) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "onboarding@resend.dev",
-          to: "moritz@rendersnek.com",
+          from: "wanna@expairiment.com",
+          to: "wanna@expairiment.com",
           subject: `[expairiment] Message from ${email}`,
           text: `From: ${email}\n\n${message}`,
         }),
